@@ -1,42 +1,46 @@
 import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     cartItems: [],
-};
-const CartSlice = ({
- name: 'cart',
+  };
+const CartSlice = createSlice({
+    name: 'cart',
     initialState,
     reducers: {
-        addItemToCart: (state, action) => {
+        addItemToCart(state, action) {
             const existingItem = state.cartItems.find(item => item.id === action.payload.id);
             if (existingItem) {
-                existingItem.quantity += 1;
+              existingItem.quantity += 1;
             } else {
-                state.cartItems.push({ ...action.payload, quantity: 1 });
+              state.cartItems.push({ ...action.payload, quantity: 1 });
             }
-        },
-        removeItemFromCart: (state, action) => {
-            state.cartItems = state.cartItems.filter(item => item.id !== action.payload.id);
-        },
-        clearCart: (state) => {
+          },
+          removeItemFromCart(state, action) {
+            state.cartItems = state.cartItems.filter(item => item.id !== action.payload);
+          },
+          clearCart(state) {
             state.cartItems = [];
-        },  
-        increaseItemQuantity: (state, action) => {
-            const itemToIncrease = state.cartItems.find(item => item.id === action.payload.id);
+          },
+          increaseItemQuantity(state, action) {
+            const itemToIncrease = state.cartItems.find(item => item.id === action.payload);
             if (itemToIncrease) {
-                itemToIncrease.quantity += 1;
+              itemToIncrease.quantity += 1;
             }
-        },
-        decreaseItemQuantity: (state, action) => {
-            const itemToDecrease = state.cartItems.find(item => item.id === action.payload.id);
+          },
+          decreaseItemQuantity(state, action) {
+            const itemToDecrease = state.cartItems.find(item => item.id === action.payload);
             if (itemToDecrease && itemToDecrease.quantity > 1) {
-                itemToDecrease.quantity -= 1;
+              itemToDecrease.quantity -= 1;
             }
-        },
+          },
+
 
     }
 });
-
-export const { addItemToCart, removeItemFromCart, clearCart, increaseItemQuantity, decreaseItemQuantity } = CartSlice.actions;
-export default CartSlice.reducer;
-
-
+export const {
+    addItemToCart,
+    removeItemFromCart,
+    clearCart,
+    increaseItemQuantity,
+    decreaseItemQuantity,
+  } = CartSlice.actions;
+  export default CartSlice.reducer;
